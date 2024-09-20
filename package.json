@@ -1,0 +1,25 @@
+{
+  "name": "chat2",
+  "version": "1.0.0",
+  "description": "chat app but more advanced than chat 1",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "npm run test",
+    "dev": "node index.js",
+    "styles":"npx tailwindcss -i ./src/input.css -o ./src/output.css --watch"
+  },
+  "keywords": [
+    "chat",
+    "app"
+  ],
+  "author": "ronjohnsonowuor",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.21.0",
+    "socket.io": "^4.7.5"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.12"
+  }
+}
