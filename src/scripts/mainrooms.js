@@ -6,6 +6,7 @@ const userMessage = document.getElementById('message-input');
 const userRoom = localStorage.getItem('roomcode');
 const sender = localStorage.getItem('username');
 const senderAvatar = localStorage.getItem('avatar');
+const exit = document.getElementById("exit");
 
 // listen for new message
 socket.on(userRoom,(msg)=>{
@@ -124,6 +125,12 @@ if(userMessage.value){
 }
 });
 
+
+// command to exit room
+const exitRoom = () =>{
+    location.href= "/joinroom";
+}
+exit.addEventListener('click',exitRoom);
 
 
 
