@@ -12,6 +12,12 @@
             <h1 class="text-3xl font-bold text-cyan-400 mb-6">Join Room</h1>
             <input type="text" id="username" placeholder="Username" class="w-full bg-gray-800 text-cyan-300 border border-cyan-600 rounded-lg py-2 px-4 mb-4 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition duration-300 ease-in-out hover:shadow-[0_0_10px_#22d3ee]">
             <input type="text" id="code" placeholder="EX1120" class="w-full bg-gray-800 text-cyan-300 border border-cyan-600 rounded-lg py-2 px-4 mb-6 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition duration-300 ease-in-out hover:shadow-[0_0_10px_#22d3ee]">
+            <div class="border border-cyan-600 rounded-lg py-2 px-4 mb-4 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition duration-300 ease-in-out hover:shadow-[0_0_10px_#22d3ee] my-4 rounded-md p-4 min-w-[100px]" id="avatar_column">
+              <div>
+                <h3 class="text-[12px] font-extrabold mb-4">click to choose your avatar</h3>
+              </div>
+              <div id="avatar_list" class="m-2 min-h-[100px] grid gap-2 grid-cols-5"></div>
+            </div>
             <button id="joinButton"   class="w-full bg-cyan-600 hover:bg-cyan-700 text-white font-semibold py-2 px-4 rounded-lg transition duration-300 ease-in-out transform hover:scale-105 hover:shadow-[0_0_15px_#22d3ee]">
               Join
             </button>

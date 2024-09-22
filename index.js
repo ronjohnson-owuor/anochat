@@ -1,5 +1,5 @@
 import express from 'express';
-import {createServer} from 'node:http'
+import {createServer} from 'node:http';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { Server } from 'socket.io';
