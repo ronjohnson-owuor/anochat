@@ -7,6 +7,7 @@ const userRoom = localStorage.getItem('roomcode');
 const sender = localStorage.getItem('username');
 const senderAvatar = localStorage.getItem('avatar');
 const exit = document.getElementById("exit");
+const users = document.getElementById('users');
 
 // listen for new message
 socket.on(userRoom,(msg)=>{
@@ -21,8 +22,10 @@ socket.on(userRoom,(msg)=>{
 
         messageContainer.classList.add(
             "bg-gradient-to-r", 
-            "from-cyan-600", 
-            "to-teal-400", 
+            "from-gray-800", 
+            "to-gray-900", 
+            "border",
+            "border-gray-700",
             "text-right",
             "rounded-lg",
             "px-4",
@@ -43,7 +46,7 @@ socket.on(userRoom,(msg)=>{
 
         let img = document.createElement("img");
         img.src = msg.avatar;
-        img.classList.add("w-[50px]","h-[50px]","rounded-[100vh]","object-cover","cursor-pointer");
+        img.classList.add("w-[50px]","h-[100%]","rounded-[100vh]","object-cover","cursor-pointer");
         profileHolder.append(img);
 
         let senderName = document.createElement("p");
@@ -71,8 +74,10 @@ socket.on(userRoom,(msg)=>{
 
         messageContainer.classList.add(
             "bg-gradient-to-r", 
-            "from-gray-700", 
+            "from-gray-800", 
             "to-gray-900", 
+            "border",
+            "border-gray-300",
             "text-left",
             "rounded-lg",
             "px-4",
@@ -94,7 +99,7 @@ socket.on(userRoom,(msg)=>{
 
         let img = document.createElement("img");
         img.src = msg.avatar;
-        img.classList.add("w-[50px]","h-[50px]","rounded-[100vh]","object-cover","cursor-pointer");
+        img.classList.add("w-[50px]","h-[100%]","rounded-[100vh]","object-cover","cursor-pointer");
         profileHolder.append(img);
 
         let senderName = document.createElement("p");
@@ -132,5 +137,37 @@ const exitRoom = () =>{
 }
 exit.addEventListener('click',exitRoom);
 
+
+// get total number of users in a room
+socket.on('usercount',(data)=>{
+    if(data.roomcode == userRoom){
+        users.textContent = `${data.users} active`;
+        // display message if user exit or enter
+        displayMessage(data.type);
+        return;
+    }
+});
+
+
+
+const displayMessage = (type) => {          
+    let wrapperDiv = document.createElement('div');
+    wrapperDiv.classList.add("w-full", "h-[40px]", "text-center","text-white", "my-10", "rounded-[20px]", "flex", "items-center", "justify-center");
+    let textspan = document.createElement('span');
+    const text = type == 0 ?" 🎯 someone entered the chat room"  : "🏃 someone exited the chat room";
+    textspan.textContent = text;
+    wrapperDiv.append(textspan);
+    if(type == 0){
+        wrapperDiv.classList.add('bg-green-400');
+        wrapperDiv.classList.remove('bg-red-400');
+    }
+
+    if(type == 1) {
+        wrapperDiv.classList.remove('bg-green-400');
+        wrapperDiv.classList.add('bg-red-400');
+
+    }
+    chatMessageArea.append(wrapperDiv);
+}
 
 

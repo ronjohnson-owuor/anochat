@@ -28,8 +28,10 @@ const rl = readline.createInterface({
 app.get('/*',(req,res) => {
     const requestedPath = req.path == '/' ? '/src/index.html' : `/src/routes/${req.path}/index.html`;
     res.sendFile(join(__dirname,requestedPath),(err)=>{
+        console.log(`GET:  ${requestedPath}`);
         if(err){
             res.status(404).sendFile(join(__dirname,'/src/routes/page-not-found/index.html'));
+            console.log(`404 NOT FOUND:  ${requestedPath}`);
         }
     });
 })
@@ -46,7 +48,6 @@ launchServer(PORT);
  server.on('error',(error)=>{
     if(error.code == 'EADDRINUSE'){
         rl.question("do you want to open the app on  another port? (y (YES),n (No))",(answer)=>{
-            console.log(answer);
             if(answer.toLowerCase() == 'y'){
                 launchServer(PORT+1);
             }else{
@@ -61,20 +62,24 @@ launchServer(PORT);
  })  
 
 
-
+let roomconnection = {};
 //  initialize the sockets connection
 io.on('connection',(socket)=>{
     const code = socket.handshake.headers.referer || null;
     if(code){
         const parsedUrl = url.parse(code,true);
         const roomcode = parsedUrl.query.code;
-        console.log("user connected");
+        socket.join(roomcode); 
+        roomconnection[roomcode] = (roomconnection[roomcode] || 0) +1;
+        io.to(roomcode).emit('usercount',{roomcode,type:0,users:roomconnection[roomcode]});
         // send messages to the user
         socket.on(roomcode,(msg)=>{
             io.emit(roomcode,msg);
         })
-    }
-    io.on('disconnect', ()=>{
-        console.log("user disconnected");
-    })
+    
+    socket.on('disconnect', ()=>{
+        roomconnection[roomcode]-=1;
+        io.to(roomcode).emit('usercount',{roomcode,type:1,users:roomconnection[roomcode]});
+    });
+}
 })
